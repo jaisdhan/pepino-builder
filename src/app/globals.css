@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'tailwindcss';
-
 /* Base Styles */
 * {
     margin: 0;
