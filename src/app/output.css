@@ -46,3 +46,8 @@ body {
     background-size: 100px;
   }
 }
+
+.test-bg {
+  @apply bg-red-500;
+}
+
