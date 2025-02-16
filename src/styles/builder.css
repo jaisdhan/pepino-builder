@@ -41,3 +41,37 @@
 .gjs-block-label {
   color: #ABE60B !important; /* Texto en verde primario con !important */
 }
+
+/* styles/builder.css */
+#right-sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: black; /* Fondo blanco */
+  border-left: 1px solid #ddd; /* Borde izquierdo */
+  padding: 10px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra a la izquierda */
+  z-index: 10;
+  overflow-y: auto; /* Permitir scroll vertical si el contenido es largo */
+}
+
+/* Estilos para los elementos internos de la barra derecha */
+#right-sidebar .gjs-pn-views {
+  padding: 10px;
+}
+
+#right-sidebar .gjs-pn-views-container {
+  background-color: #f9f9f9; /* Fondo gris claro para el contenedor */
+  border-radius: 4px; /* Bordes redondeados */
+  padding: 10px;
+}
+
+#right-sidebar .gjs-pn-views .gjs-pn-view {
+  margin-bottom: 10px; /* Espacio entre elementos */
+}
+
+#right-sidebar .gjs-pn-views .gjs-pn-view:last-child {
+  margin-bottom: 0; /* Eliminar margen inferior del último elemento */
+}

@@ -5,11 +5,15 @@ import grapesjsPresetWebpage from "grapesjs-preset-webpage";
 import grapesjsStyleBg from "grapesjs-style-bg";
 import grapesjsCustomCode from "grapesjs-custom-code";
 import Image from "next/image";
-import "../styles/builder.css"; 
+import "../styles/builder.css"; // Importar el archivo CSS personalizado
+
+const handleLogout = () => {
+  window.location.href = "/login";
+};
 
 const Header = () => (
-  <header className="fixed top-0 left-0 right-0 h-16 flex items-center bg-primary z-50">
-    <div className="flex items-center pl-4">
+  <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between bg-primary z-50 px-4">
+    <div className="flex items-center">
       <Image
         src="/images/logo/logo.svg"
         alt="Pepino Brand Logo"
@@ -18,21 +22,30 @@ const Header = () => (
         className="object-contain"
       />
     </div>
+    <button
+      onClick={handleLogout}
+      className="bg-black text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition-all"
+    >
+      Logout
+    </button>
   </header>
 );
 
 const BlockSidebar = () => (
   <div
     id="left-sidebar"
-    className="fixed left-0 top-0 h-screen bg-black p-2 shadow-lg overflow-y-auto z-40 text-primary"
-  ></div>
-);
-
-const PropertySidebar = () => (
-  <div
-    id="right-sidebar"
-    className="fixed right-0 top-0 w-[300px] h-screen bg-white border-l border-gray-200 p-2 shadow-lg overflow-y-auto z-40"
-    
+    style={{
+      position: "fixed",
+      left: 0,
+      top: 0,
+      width: "250px",
+      height: "100vh",
+      backgroundColor: "black",
+      padding: "10px",
+      boxShadow: "2px 0 5px rgba(0, 0, 0, 0.1)",
+      zIndex: 10,
+      overflow: "hidden",
+    }}
   ></div>
 );
 
@@ -40,7 +53,7 @@ const Body = () => (
   <div
     id="gjs"
     className="mt-16"
-    style={{ marginLeft: "250px", marginRight: "300px" }}
+    style={{ marginLeft: "250px" }}
   ></div>
 );
 
@@ -50,12 +63,11 @@ const GrapesEditor = () => {
   useEffect(() => {
     if (!editorRef.current) {
       const leftSidebar = document.getElementById("left-sidebar");
-      const rightSidebar = document.getElementById("right-sidebar");
 
       const editor = grapesjs.init({
         container: "#gjs",
         height: "calc(100vh - 64px)",
-        width: "calc(100% - 550px)",
+        width: "calc(100% - 250px)",
         fromElement: true,
         storageManager: false,
         plugins: [grapesjsPresetWebpage, grapesjsStyleBg, grapesjsCustomCode],
@@ -70,47 +82,72 @@ const GrapesEditor = () => {
         panels: {
           defaults: [],
         },
-        styleManager: {
-          appendTo: rightSidebar,
+        assetManager: {
+          embedAsBase64: true,
+          upload: false,
+          autoAdd: true,
         },
       });
 
-      // Añadir bloques personalizados
-      editor.BlockManager.add("text", {
-        label: "Text",
-        content: "<p>Insert your text here</p>",
-        category: "Basic",
-      });
-
+      // Bloque de imagen con carga desde el ordenador
       editor.BlockManager.add("image", {
         label: "Image",
-        content: "<img src='https://via.placeholder.com/150' alt='Placeholder' />",
         category: "Basic",
+        content: {
+          type: "image",
+          attributes: { class: "img-block" },
+        },
       });
 
-      editor.BlockManager.add("spacer", {
-        label: "Spacer",
-        content: "<div style='height:30px;'></div>",
-        category: "Basic",
+      // Agregar funcionalidad para subir imágenes
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.style.display = "none";
+      document.body.appendChild(fileInput);
+
+      fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const imageBase64 = e.target.result;
+            editor.AssetManager.add({ src: imageBase64 });
+            const selected = editor.getSelected();
+            if (selected) {
+              selected.set("src", imageBase64);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
       });
 
-      editor.BlockManager.add("divider", {
-        label: "Divider",
-        content: "<hr style='border: 1px solid #ddd;'>",
-        category: "Basic",
+      // Agregar un trait en el panel de propiedades de imágenes para subir archivos
+      editor.DomComponents.addType("image", {
+        isComponent: (el) => el.tagName === "IMG",
+        model: {
+          defaults: {
+            traits: [
+              {
+                type: "text",
+                label: "URL",
+                name: "src",
+              },
+              {
+                type: "button",
+                text: "Upload Image",
+                full: true,
+                command: "upload-image",
+              },
+            ],
+          },
+        },
       });
 
-      editor.BlockManager.add("columns", {
-        label: "Columns",
-        content: `<div class="row">
-                    <div class="column" style="width: 50%; padding: 10px; border: 1px solid #ddd;">Column 1</div>
-                    <div class="column" style="width: 50%; padding: 10px; border: 1px solid #ddd;">Column 2</div>
-                  </div>`,
-        category: "Layout",
+      // Comando para abrir el selector de archivos cuando se presione el botón "Upload Image"
+      editor.Commands.add("upload-image", {
+        run: () => fileInput.click(),
       });
-
-      console.log("Editor initialized:", editor);
-      console.log("Blocks added:", editor.BlockManager.getAll());
 
       editorRef.current = editor;
     }
@@ -120,7 +157,6 @@ const GrapesEditor = () => {
     <div>
       <Header />
       <BlockSidebar />
-      <PropertySidebar />
       <Body />
     </div>
   );
