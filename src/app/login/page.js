@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the default form submission
-    router.push("/editor"); // Navigate to /editor
+    router.push("/builder"); // Navigate to /editor
   };
 
   return (

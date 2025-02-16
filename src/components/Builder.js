@@ -1,57 +1,61 @@
-"use client";
-
 import React, { useEffect, useRef } from "react";
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjsPresetWebpage from "grapesjs-preset-webpage";
 import grapesjsStyleBg from "grapesjs-style-bg";
 import grapesjsCustomCode from "grapesjs-custom-code";
+import Image from "next/image";
+import "../styles/builder.css"; 
+
+const Header = () => (
+  <header className="fixed top-0 left-0 right-0 h-16 flex items-center bg-primary z-50">
+    <div className="flex items-center pl-4">
+      <Image
+        src="/images/logo/logo.svg"
+        alt="Pepino Brand Logo"
+        width={180}
+        height={90}
+        className="object-contain"
+      />
+    </div>
+  </header>
+);
+
+const BlockSidebar = () => (
+  <div
+    id="left-sidebar"
+    className="fixed left-0 top-0 h-screen bg-black p-2 shadow-lg overflow-y-auto z-40 text-primary"
+  ></div>
+);
+
+const PropertySidebar = () => (
+  <div
+    id="right-sidebar"
+    className="fixed right-0 top-0 w-[300px] h-screen bg-white border-l border-gray-200 p-2 shadow-lg overflow-y-auto z-40"
+    
+  ></div>
+);
+
+const Body = () => (
+  <div
+    id="gjs"
+    className="mt-16"
+    style={{ marginLeft: "250px", marginRight: "300px" }}
+  ></div>
+);
 
 const GrapesEditor = () => {
   const editorRef = useRef(null);
 
   useEffect(() => {
     if (!editorRef.current) {
-      // Left Sidebar for Blocks
-      const leftSidebar = document.createElement("div");
-      leftSidebar.id = "left-sidebar";
-      leftSidebar.style = `
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 250px;
-        height: 100vh;
-        background: #f5f5f5;
-        padding: 10px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        z-index: 1000;
-      `;
-      document.body.appendChild(leftSidebar);
+      const leftSidebar = document.getElementById("left-sidebar");
+      const rightSidebar = document.getElementById("right-sidebar");
 
-      // Right Sidebar for Component Properties
-      const rightSidebar = document.createElement("div");
-      rightSidebar.id = "right-sidebar";
-      rightSidebar.style = `
-        position: fixed;
-        right: 0;
-        top: 0;
-        width: 300px;
-        height: 100vh;
-        background: #fff;
-        border-left: 1px solid #ddd;
-        padding: 10px;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        z-index: 1000;
-      `;
-      document.body.appendChild(rightSidebar);
-
-      // GrapesJS Initialization
       const editor = grapesjs.init({
         container: "#gjs",
-        height: "100vh",
-        width: "calc(100% - 550px)", // Account for sidebars
+        height: "calc(100vh - 64px)",
+        width: "calc(100% - 550px)",
         fromElement: true,
         storageManager: false,
         plugins: [grapesjsPresetWebpage, grapesjsStyleBg, grapesjsCustomCode],
@@ -71,7 +75,7 @@ const GrapesEditor = () => {
         },
       });
 
-      // Custom Blocks
+      // Añadir bloques personalizados
       editor.BlockManager.add("text", {
         label: "Text",
         content: "<p>Insert your text here</p>",
@@ -105,16 +109,21 @@ const GrapesEditor = () => {
         category: "Layout",
       });
 
-      // Debugging
       console.log("Editor initialized:", editor);
       console.log("Blocks added:", editor.BlockManager.getAll());
 
-      // Save reference
       editorRef.current = editor;
     }
   }, []);
 
-  return <div id="gjs" style={{ marginLeft: "250px", marginRight: "300px" }}></div>;
+  return (
+    <div>
+      <Header />
+      <BlockSidebar />
+      <PropertySidebar />
+      <Body />
+    </div>
+  );
 };
 
 export default GrapesEditor;

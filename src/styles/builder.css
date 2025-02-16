@@ -1,0 +1,43 @@
+/* styles/editor.css */
+#left-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: black !important; /* Fondo negro con !important */
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+#custom-blocks {
+  overflow-y: auto;
+  height: calc(100vh - 20px);
+  padding: 10px;
+}
+
+.gjs-blocks-c {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gjs-block {
+  background: black !important; /* Fondo negro con !important */
+  border: 1px solid #333 !important; /* Borde más oscuro con !important */
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: #ABE60B !important; /* Texto en verde primario con !important */
+}
+
+.gjs-block:hover {
+  background: #333 !important; /* Fondo más claro al hacer hover con !important */
+  color: #ABE60B !important; /* Texto en verde primario con !important */
+}
+
+.gjs-block-label {
+  color: #ABE60B !important; /* Texto en verde primario con !important */
+}
