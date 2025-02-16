@@ -2,9 +2,16 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; 
 
 const LoginPage = () => {
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
+  const router = useRouter(); // Initialize the router
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent the default form submission
+    router.push("/editor"); // Navigate to /editor
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
@@ -13,14 +20,14 @@ const LoginPage = () => {
         <Image
           src="/images/cat.png"
           alt="Cat"
-          width={450} // Adjust size as needed
-          height={450} // Adjust size as needed
-          className="opacity-90" // Make the image semi-transparent
+          width={450} 
+          height={450} 
+          className="opacity-90" 
         />
       </div>
 
       {/* Login Card */}
-      <div className="bg-white p-8 rounded-lg w-full max-w-md relative z-10 border-2 border-black shadow-[8px_8px_0_0_#ABE60B]">
+      <div className="bg-white p-8 rounded-lg w-full max-w-sm relative z-10 border border-black shadow-[8px_8px_0_0_#ABE60B]">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <Image
@@ -37,7 +44,7 @@ const LoginPage = () => {
         </h6>
 
         {/* Login Form */}
-        <form>
+        <form onSubmit={handleSubmit}> {/* Add onSubmit handler */}
           {/* Email Field */}
           <div className="mb-4">
             <label
