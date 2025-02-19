@@ -5,7 +5,7 @@ import grapesjsPresetWebpage from "grapesjs-preset-webpage";
 import grapesjsStyleBg from "grapesjs-style-bg";
 import grapesjsCustomCode from "grapesjs-custom-code";
 import Image from "next/image";
-import "../styles/builder.css"; // Importar el archivo CSS personalizado
+import "../styles/builder.css"; // Import your custom CSS file
 
 const handleLogout = () => {
   window.location.href = "/login";
@@ -34,19 +34,18 @@ const Header = () => (
 const BlockSidebar = () => (
   <div
     id="left-sidebar"
-    style={{
-      position: "fixed",
-      left: 0,
-      top: 0,
-      width: "250px",
-      height: "100vh",
-      backgroundColor: "black",
-      padding: "10px",
-      boxShadow: "2px 0 5px rgba(0, 0, 0, 0.1)",
-      zIndex: 10,
-      overflow: "hidden",
-    }}
-  ></div>
+    className="left-sidebar"
+  >
+    {/* Sidebar Header */}
+    <div className="sidebar-header">
+      <h3>Blocks</h3>
+    </div>
+
+    {/* Sidebar Content */}
+    <div id="blocks-container" className="sidebar-content">
+      {/* GrapesJS Block Manager will append blocks here */}
+    </div>
+  </div>
 );
 
 const Body = () => (
@@ -62,7 +61,7 @@ const GrapesEditor = () => {
 
   useEffect(() => {
     if (!editorRef.current) {
-      const leftSidebar = document.getElementById("left-sidebar");
+      const leftSidebar = document.getElementById("blocks-container"); // Append blocks to the container
 
       const editor = grapesjs.init({
         container: "#gjs",
@@ -77,7 +76,7 @@ const GrapesEditor = () => {
           grapesjsCustomCode: {},
         },
         blockManager: {
-          appendTo: leftSidebar,
+          appendTo: leftSidebar, // Append blocks to the #blocks-container
         },
         panels: {
           defaults: [],
@@ -89,7 +88,7 @@ const GrapesEditor = () => {
         },
       });
 
-      // Bloque de imagen con carga desde el ordenador
+      // Add a custom image block
       editor.BlockManager.add("image", {
         label: "Image",
         category: "Basic",
@@ -99,7 +98,7 @@ const GrapesEditor = () => {
         },
       });
 
-      // Agregar funcionalidad para subir imágenes
+      // Add functionality to upload images
       const fileInput = document.createElement("input");
       fileInput.type = "file";
       fileInput.accept = "image/*";
@@ -122,7 +121,7 @@ const GrapesEditor = () => {
         }
       });
 
-      // Agregar un trait en el panel de propiedades de imágenes para subir archivos
+      // Add a trait to the image component for uploading
       editor.DomComponents.addType("image", {
         isComponent: (el) => el.tagName === "IMG",
         model: {
@@ -144,7 +143,7 @@ const GrapesEditor = () => {
         },
       });
 
-      // Comando para abrir el selector de archivos cuando se presione el botón "Upload Image"
+      // Command to open the file input when "Upload Image" is clicked
       editor.Commands.add("upload-image", {
         run: () => fileInput.click(),
       });

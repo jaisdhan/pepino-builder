@@ -1,77 +1,93 @@
-/* styles/editor.css */
-#left-sidebar {
+/* Left Sidebar */
+.left-sidebar {
   position: fixed;
   left: 0;
   top: 0;
   width: 250px;
   height: 100vh;
-  background-color: black !important; /* Fondo negro con !important */
+  background-color: #2b2d42;
+  color: #ffffff;
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  overflow: hidden;
 }
 
-#custom-blocks {
+/* Sidebar Header */
+.sidebar-header {
+  padding: 10px;
+  border-bottom: 1px solid #404363;
+  margin-bottom: 10px;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Sidebar Content */
+.sidebar-content {
   overflow-y: auto;
-  height: calc(100vh - 20px);
+  height: calc(100vh - 60px);
+}
+
+/* GrapesJS Block Sections (Categories) */
+.gjs-block-category {
+  background-color: #404363;
+  color: #ffffff;
+  border-radius: 4px;
+  margin: 5px 0;
   padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
-.gjs-blocks-c {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.gjs-block-category:hover {
+  background-color: #50557a;
 }
 
+/* GrapesJS Blocks */
 .gjs-block {
-  background: black !important; /* Fondo negro con !important */
-  border: 1px solid #333 !important; /* Borde más oscuro con !important */
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  color: #ABE60B !important; /* Texto en verde primario con !important */
+  margin: 5px 5px;
+  background-color: #50557a;
+  border-radius: 8px;
+  cursor: grab;
+  transition: background-color 0.2s;
+  font-size: 14px;
+  color: #ffffff;
 }
 
 .gjs-block:hover {
-  background: #333 !important; /* Fondo más claro al hacer hover con !important */
-  color: #ABE60B !important; /* Texto en verde primario con !important */
+  background-color: #60678f;
 }
 
+/* GrapesJS Block Labels */
 .gjs-block-label {
-  color: #ABE60B !important; /* Texto en verde primario con !important */
+  color: #ffffff;
 }
 
-/* styles/builder.css */
-#right-sidebar {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 300px;
-  height: 100vh;
-  background-color: black; /* Fondo blanco */
-  border-left: 1px solid #ddd; /* Borde izquierdo */
-  padding: 10px;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra a la izquierda */
-  z-index: 10;
-  overflow-y: auto; /* Permitir scroll vertical si el contenido es largo */
+/* GrapesJS Block Icons */
+.gjs-block svg {
+  fill: #ffffff;
 }
 
-/* Estilos para los elementos internos de la barra derecha */
-#right-sidebar .gjs-pn-views {
-  padding: 10px;
+/* Main Content Area */
+#gjs {
+  margin-top: 64px;
+  margin-left: 250px;
+  background-color: #f8f9fa;
+  /*padding: 20px;*/
 }
 
-#right-sidebar .gjs-pn-views-container {
-  background-color: #f9f9f9; /* Fondo gris claro para el contenedor */
-  border-radius: 4px; /* Bordes redondeados */
-  padding: 10px;
-}
-
-#right-sidebar .gjs-pn-views .gjs-pn-view {
-  margin-bottom: 10px; /* Espacio entre elementos */
-}
-
-#right-sidebar .gjs-pn-views .gjs-pn-view:last-child {
-  margin-bottom: 0; /* Eliminar margen inferior del último elemento */
+/* Drop Zone */
+.drop-zone {
+  background-color: #ffffff;
+  border: 2px dashed #dddddd;
+  padding: 20px;
+  text-align: center;
+  color: #999999;
+  border-radius: 4px;
+  font-size: 14px;
 }
