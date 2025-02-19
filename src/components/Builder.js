@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjsPresetWebpage from "grapesjs-preset-webpage";
@@ -31,33 +31,47 @@ const Header = () => (
   </header>
 );
 
-const BlockSidebar = () => (
+const BlockSidebar = ({ isSidebarExpanded, toggleSidebar }) => (
   <div
     id="left-sidebar"
-    className="left-sidebar"
+    className={`left-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}
   >
     {/* Sidebar Header */}
     <div className="sidebar-header">
-      <h3>Blocks</h3>
+      <h3>{isSidebarExpanded ? "Blocks" : ""}</h3>
     </div>
 
     {/* Sidebar Content */}
     <div id="blocks-container" className="sidebar-content">
       {/* GrapesJS Block Manager will append blocks here */}
     </div>
+
+    {/* Collapse/Expand Button */}
+    <button
+      onClick={toggleSidebar}
+      className="toggle-sidebar-button"
+      aria-label="Toggle Sidebar"
+    >
+      {isSidebarExpanded ? "<" : ">"} {/* Updated icons */}
+    </button>
   </div>
 );
 
-const Body = () => (
+const Body = ({ isSidebarExpanded }) => (
   <div
     id="gjs"
     className="mt-16"
-    style={{ marginLeft: "250px" }}
+    style={{ marginLeft: isSidebarExpanded ? "250px" : "50px" }}
   ></div>
 );
 
 const GrapesEditor = () => {
   const editorRef = useRef(null);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded((prev) => !prev);
+  };
 
   useEffect(() => {
     if (!editorRef.current) {
@@ -66,7 +80,7 @@ const GrapesEditor = () => {
       const editor = grapesjs.init({
         container: "#gjs",
         height: "calc(100vh - 64px)",
-        width: "calc(100% - 250px)",
+        width: isSidebarExpanded ? "calc(100% - 250px)" : "calc(100% - 50px)", // Adjust width dynamically
         fromElement: true,
         storageManager: false,
         plugins: [grapesjsPresetWebpage, grapesjsStyleBg, grapesjsCustomCode],
@@ -150,13 +164,16 @@ const GrapesEditor = () => {
 
       editorRef.current = editor;
     }
-  }, []);
+  }, [isSidebarExpanded]);
 
   return (
     <div>
       <Header />
-      <BlockSidebar />
-      <Body />
+      <BlockSidebar
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+      />
+      <Body isSidebarExpanded={isSidebarExpanded} />
     </div>
   );
 };

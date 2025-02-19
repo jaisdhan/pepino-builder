@@ -11,6 +11,11 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
   overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.left-sidebar.collapsed {
+  width: 50px; /* Collapsed width */
 }
 
 /* Sidebar Header */
@@ -30,6 +35,35 @@
 .sidebar-content {
   overflow-y: auto;
   height: calc(100vh - 60px);
+}
+
+/* Collapse/Expand Button */
+.toggle-sidebar-button {
+  position: fixed; /* Use fixed positioning to place it outside the sidebar */
+  left: 250px; /* Position it at the edge of the expanded sidebar */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%);
+  background-color: #2b2d42; /* Same as sidebar background */
+  border: none; /* Remove the white border */
+  border-radius: 4px; /* Rectangle with slightly rounded corners */
+  width: 24px; /* Slim rectangle */
+  height: 60px; /* Taller rectangle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff; /* White icon color */
+  font-size: 16px; /* Slightly larger icon */
+  cursor: pointer;
+  z-index: 20; /* Ensure it's above the body */
+  transition: background-color 0.2s, left 0.3s ease;
+}
+
+.toggle-sidebar-button:hover {
+  background-color: #404363; /* Slightly lighter on hover */
+}
+
+.left-sidebar.collapsed .toggle-sidebar-button {
+  left: 50px; /* Move the button to the edge of the collapsed sidebar */
 }
 
 /* GrapesJS Block Sections (Categories) */
@@ -78,7 +112,7 @@
   margin-top: 64px;
   margin-left: 250px;
   background-color: #f8f9fa;
-  /*padding: 20px;*/
+  transition: margin-left 0.3s ease;
 }
 
 /* Drop Zone */
