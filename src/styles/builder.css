@@ -66,6 +66,31 @@
   left: 50px; /* Move the button to the edge of the collapsed sidebar */
 }
 
+/* Main Content Area */
+#gjs {
+  margin-top: 64px;
+  margin-left: 250px; /* Default margin when sidebar is expanded */
+  width: calc(100% - 250px); /* Default width when sidebar is expanded */
+  background-color: #f8f9fa;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.left-sidebar.collapsed ~ #gjs {
+  margin-left: 50px; /* Adjusted margin when sidebar is collapsed */
+  width: calc(100% - 50px); /* Adjusted width when sidebar is collapsed */
+}
+
+/* Drop Zone */
+.drop-zone {
+  background-color: #ffffff;
+  border: 2px dashed #dddddd;
+  padding: 20px;
+  text-align: center;
+  color: #999999;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
 /* GrapesJS Block Sections (Categories) */
 .gjs-block-category {
   background-color: #404363;
@@ -105,23 +130,4 @@
 /* GrapesJS Block Icons */
 .gjs-block svg {
   fill: #ffffff;
-}
-
-/* Main Content Area */
-#gjs {
-  margin-top: 64px;
-  margin-left: 250px;
-  background-color: #f8f9fa;
-  transition: margin-left 0.3s ease;
-}
-
-/* Drop Zone */
-.drop-zone {
-  background-color: #ffffff;
-  border: 2px dashed #dddddd;
-  padding: 20px;
-  text-align: center;
-  color: #999999;
-  border-radius: 4px;
-  font-size: 14px;
 }
