@@ -22,8 +22,8 @@ header {
   top: 64px; /* Ajuste para el header */
   width: 250px;
   height: calc(100vh - 64px); /* Ajuste para el header */
-  background-color: #1a1a1a; /* Fondo oscuro */
-  color: #ffffff;
+  background-color: #e2ffdb; /* Fondo blanco */
+  color: #000000; /* Letras negras */
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -41,6 +41,7 @@ header {
   overflow-y: auto;
   height: calc(100vh - 84px); /* Ajuste para el header y padding */
   transition: opacity 0.3s ease;
+  background-color: #ffffff; /* Fondo blanco */
 }
 
 .left-sidebar.collapsed .sidebar-content {
@@ -53,15 +54,15 @@ header {
   left: 250px;
   top: calc(50% + 32px); /* Ajuste para el header */
   transform: translateY(-50%);
-  background-color: #1a1a1a; /* Fondo oscuro */
-  border: none;
+  background-color: #ffffff; /* Fondo blanco */
+  border: 1px solid #e5e5e5; /* Borde sutil */
   border-radius: 4px;
   width: 24px;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: #000000; /* Letras negras */
   font-size: 16px;
   cursor: pointer;
   z-index: 20;
@@ -69,7 +70,7 @@ header {
 }
 
 .toggle-sidebar-button:hover {
-  background-color: #333333; /* Gris oscuro al hacer hover */
+  background-color: #f9f9f9; /* Fondo más claro al hacer hover */
 }
 
 .left-sidebar.collapsed .toggle-sidebar-button {
@@ -88,4 +89,60 @@ header {
 .left-sidebar.collapsed ~ #gjs {
   margin-left: 0 !important; /* Eliminar el margen izquierdo */
   width: 100% !important; /* Ocupar toda la pantalla */
+}
+
+/* Contenedor de categorías de bloques */
+.left-sidebar .gjs-block-categories {
+  background-color: #e2ffdb !important; /* Fondo verdecito */
+}
+
+.sidebar-content {
+  background-color: #e2ffdb !important; /* Fondo verdecito */
+}
+
+/* Secciones de bloques */
+.left-sidebar .gjs-block-category {
+  background-color: #ffffff !important; /* Fondo blanco */
+  color: #000000 !important; /* Letras negras */
+  border: 1px solid #e5e5e5 !important; /* Borde sutil */
+  border-radius: 8px !important;
+  margin: 5px 0 !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Sombra sutil */
+}
+
+.left-sidebar .gjs-block-category:hover {
+  background-color: #f9f9f9 !important; /* Fondo más claro al hacer hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important; /* Sombra más pronunciada al hacer hover */
+}
+
+/* Bloques de GrapesJS */
+.left-sidebar .gjs-block {
+  margin: 5px 5px !important;
+  background-color: #ffffff !important; /* Fondo blanco */
+  border: 1px solid #e5e5e5 !important; /* Borde sutil */
+  border-radius: 8px !important;
+  cursor: grab;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  font-size: 14px !important;
+  color: #000000 !important; /* Letras negras */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Sombra sutil */
+}
+
+.left-sidebar .gjs-block:hover {
+  background-color: #f9f9f9 !important; /* Fondo más claro al hacer hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important; /* Sombra más pronunciada al hacer hover */
+}
+
+/* Etiquetas de los bloques */
+.left-sidebar .gjs-block-label {
+  color: #000000 !important; /* Letras negras */
+}
+
+/* Iconos de los bloques */
+.left-sidebar .gjs-block svg {
+  fill: #000000 !important; /* Iconos negros */
 }

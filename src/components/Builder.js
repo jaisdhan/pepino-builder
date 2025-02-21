@@ -38,12 +38,13 @@ const BlockSidebar = ({ isSidebarExpanded, toggleSidebar }) => (
     id="left-sidebar"
     className={`left-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}
   >
-    {/* Sidebar Content */}
-    <div id="blocks-container" className="sidebar-content">
-      {/* GrapesJS Block Manager will append blocks here */}
+    {/* Contenido de la barra lateral */}
+    <div className="sidebar-content">
+      {/* Bloques de GrapesJS */}
+      <div id="blocks-container"></div>
     </div>
 
-    {/* Collapse/Expand Button */}
+    {/* Botón para colapsar/expandir */}
     <button
       onClick={toggleSidebar}
       className="toggle-sidebar-button"
