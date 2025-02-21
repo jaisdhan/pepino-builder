@@ -11,8 +11,9 @@ const handleLogout = () => {
   window.location.href = "/login";
 };
 
+// Header principal
 const Header = () => (
-  <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between bg-primary z-50 px-4">
+  <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between bg-black z-50 px-4">
     <div className="flex items-center">
       <Image
         src="/images/logo/logo.svg"
@@ -24,23 +25,19 @@ const Header = () => (
     </div>
     <button
       onClick={handleLogout}
-      className="bg-black text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition-all"
+      className="bg-green-500 text-black px-4 py-2 rounded-md hover:bg-green-600 transition-all"
     >
       Logout
     </button>
   </header>
 );
 
+// Barra lateral
 const BlockSidebar = ({ isSidebarExpanded, toggleSidebar }) => (
   <div
     id="left-sidebar"
     className={`left-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}
   >
-    {/* Sidebar Header */}
-    <div className="sidebar-header">
-      <h3>{isSidebarExpanded ? "Blocks" : ""}</h3>
-    </div>
-
     {/* Sidebar Content */}
     <div id="blocks-container" className="sidebar-content">
       {/* GrapesJS Block Manager will append blocks here */}
@@ -52,11 +49,12 @@ const BlockSidebar = ({ isSidebarExpanded, toggleSidebar }) => (
       className="toggle-sidebar-button"
       aria-label="Toggle Sidebar"
     >
-      {isSidebarExpanded ? "<" : ">"} {/* Updated icons */}
+      {isSidebarExpanded ? "<" : ">"}
     </button>
   </div>
 );
 
+// Área principal del editor
 const Body = ({ isSidebarExpanded }) => (
   <div
     id="gjs"
@@ -65,6 +63,7 @@ const Body = ({ isSidebarExpanded }) => (
   ></div>
 );
 
+// Componente principal del editor
 const GrapesEditor = () => {
   const editorRef = useRef(null);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);

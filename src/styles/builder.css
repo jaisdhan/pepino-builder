@@ -1,11 +1,28 @@
+/* Header principal */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: #000000; /* Fondo negro */
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 50;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 /* Left Sidebar */
 .left-sidebar {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 64px; /* Ajuste para el header */
   width: 250px;
-  height: 100vh;
-  background-color: #2b2d42;
+  height: calc(100vh - 64px); /* Ajuste para el header */
+  background-color: #1a1a1a; /* Fondo oscuro */
   color: #ffffff;
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -15,119 +32,60 @@
 }
 
 .left-sidebar.collapsed {
-  width: 50px; /* Collapsed width */
-}
-
-/* Sidebar Header */
-.sidebar-header {
-  padding: 10px;
-  border-bottom: 1px solid #404363;
-  margin-bottom: 10px;
-}
-
-.sidebar-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
+  width: 0 !important; /* Ocultar completamente la barra lateral */
+  padding: 0 !important; /* Eliminar el padding */
 }
 
 /* Sidebar Content */
 .sidebar-content {
   overflow-y: auto;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 84px); /* Ajuste para el header y padding */
+  transition: opacity 0.3s ease;
+}
+
+.left-sidebar.collapsed .sidebar-content {
+  opacity: 0; /* Ocultar el contenido de la barra lateral */
 }
 
 /* Collapse/Expand Button */
 .toggle-sidebar-button {
-  position: fixed; /* Use fixed positioning to place it outside the sidebar */
-  left: 250px; /* Position it at the edge of the expanded sidebar */
-  top: 50%; /* Center vertically */
+  position: fixed;
+  left: 250px;
+  top: calc(50% + 32px); /* Ajuste para el header */
   transform: translateY(-50%);
-  background-color: #2b2d42; /* Same as sidebar background */
-  border: none; /* Remove the white border */
-  border-radius: 4px; /* Rectangle with slightly rounded corners */
-  width: 24px; /* Slim rectangle */
-  height: 60px; /* Taller rectangle */
+  background-color: #1a1a1a; /* Fondo oscuro */
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff; /* White icon color */
-  font-size: 16px; /* Slightly larger icon */
+  color: #ffffff;
+  font-size: 16px;
   cursor: pointer;
-  z-index: 20; /* Ensure it's above the body */
+  z-index: 20;
   transition: background-color 0.2s, left 0.3s ease;
 }
 
 .toggle-sidebar-button:hover {
-  background-color: #404363; /* Slightly lighter on hover */
+  background-color: #333333; /* Gris oscuro al hacer hover */
 }
 
 .left-sidebar.collapsed .toggle-sidebar-button {
-  left: 50px; /* Move the button to the edge of the collapsed sidebar */
+  left: 0 !important; /* Mover el botón al borde izquierdo */
 }
 
 /* Main Content Area */
 #gjs {
-  margin-top: 64px;
-  margin-left: 250px; /* Default margin when sidebar is expanded */
-  width: calc(100% - 250px); /* Default width when sidebar is expanded */
+  margin-top: 64px; /* Ajuste para el header */
+  margin-left: 250px; /* Ajuste para la barra lateral */
+  width: calc(100% - 250px); /* Ancho cuando la barra lateral está expandida */
   background-color: #f8f9fa;
   transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
 .left-sidebar.collapsed ~ #gjs {
-  margin-left: 50px; /* Adjusted margin when sidebar is collapsed */
-  width: calc(100% - 50px); /* Adjusted width when sidebar is collapsed */
-}
-
-/* Drop Zone */
-.drop-zone {
-  background-color: #ffffff;
-  border: 2px dashed #dddddd;
-  padding: 20px;
-  text-align: center;
-  color: #999999;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-/* GrapesJS Block Sections (Categories) */
-.gjs-block-category {
-  background-color: #404363;
-  color: #ffffff;
-  border-radius: 4px;
-  margin: 5px 0;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.gjs-block-category:hover {
-  background-color: #50557a;
-}
-
-/* GrapesJS Blocks */
-.gjs-block {
-  margin: 5px 5px;
-  background-color: #50557a;
-  border-radius: 8px;
-  cursor: grab;
-  transition: background-color 0.2s;
-  font-size: 14px;
-  color: #ffffff;
-}
-
-.gjs-block:hover {
-  background-color: #60678f;
-}
-
-/* GrapesJS Block Labels */
-.gjs-block-label {
-  color: #ffffff;
-}
-
-/* GrapesJS Block Icons */
-.gjs-block svg {
-  fill: #ffffff;
+  margin-left: 0 !important; /* Eliminar el margen izquierdo */
+  width: 100% !important; /* Ocupar toda la pantalla */
 }
