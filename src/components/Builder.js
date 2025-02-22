@@ -5,69 +5,94 @@ import grapesjsPresetWebpage from "grapesjs-preset-webpage";
 import grapesjsStyleBg from "grapesjs-style-bg";
 import grapesjsCustomCode from "grapesjs-custom-code";
 import Image from "next/image";
-import "../styles/builder.css"; // Import your custom CSS file
+import "../styles/builder.css"; // Import your CSS file
+
+// Import Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDesktop,
+  faTabletScreenButton,
+  faMobileScreenButton,
+} from "@fortawesome/free-solid-svg-icons";
 
 const handleLogout = () => {
   window.location.href = "/login";
 };
 
-// Header principal
-const Header = () => (
-  <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between bg-black z-50 px-4">
-    <div className="flex items-center">
-      <Image
-        src="/images/logo/logo.svg"
-        alt="Pepino Brand Logo"
-        width={180}
-        height={90}
-        className="object-contain"
-      />
-    </div>
-    <button
-      onClick={handleLogout}
-      className="bg-green-500 text-black px-4 py-2 rounded-md hover:bg-green-600 transition-all"
-    >
-      Logout
-    </button>
-  </header>
-);
+// Header component with device buttons
+const Header = ({ editor }) => {
+  const handleDeviceChange = (device) => {
+    if (editor) {
+      editor.setDevice(device); // Use setDevice instead of runCommand
+    }
+  };
 
-// Barra lateral
+  return (
+    <header>
+      <div className="logo-container">
+        <Image
+          src="/images/logo/logo.svg"
+          alt="Pepino Brand Logo"
+          width={180}
+          height={90}
+          className="logo"
+        />
+      </div>
+
+      <div className="center-buttons">
+        <button
+          className="header-button"
+          onClick={() => handleDeviceChange("Desktop")}
+        >
+          <FontAwesomeIcon icon={faDesktop} /> {/* Desktop icon */}
+        </button>
+        <button
+          className="header-button"
+          onClick={() => handleDeviceChange("Tablet")}
+        >
+          <FontAwesomeIcon icon={faTabletScreenButton} />
+        </button>
+        <button
+          className="header-button"
+          onClick={() => handleDeviceChange("Mobile portrait")}
+        >
+          <FontAwesomeIcon icon={faMobileScreenButton} />
+        </button>
+      </div>
+
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
+    </header>
+  );
+};
+
+// Sidebar component
 const BlockSidebar = ({ isSidebarExpanded, toggleSidebar }) => (
   <div
-    id="left-sidebar"
     className={`left-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}
   >
-    {/* Contenido de la barra lateral */}
-    <div className="sidebar-content">
-      {/* Bloques de GrapesJS */}
-      <div id="blocks-container"></div>
-    </div>
-
-    {/* Botón para colapsar/expandir */}
-    <button
-      onClick={toggleSidebar}
-      className="toggle-sidebar-button"
-      aria-label="Toggle Sidebar"
-    >
+    <div id="blocks-container"></div>
+    <button className="toggle-sidebar-button" onClick={toggleSidebar}>
       {isSidebarExpanded ? "<" : ">"}
     </button>
   </div>
 );
 
-// Área principal del editor
+// Main editor area
 const Body = ({ isSidebarExpanded }) => (
   <div
     id="gjs"
-    className="mt-16"
-    style={{ marginLeft: isSidebarExpanded ? "250px" : "50px" }}
+    className="main-content"
+    style={{ marginLeft: isSidebarExpanded ? "250px" : "0" }}
   ></div>
 );
 
-// Componente principal del editor
+// Main GrapesEditor component
 const GrapesEditor = () => {
   const editorRef = useRef(null);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [editor, setEditor] = useState(null); // State to hold the editor instance
 
   const toggleSidebar = () => {
     setIsSidebarExpanded((prev) => !prev);
@@ -75,12 +100,10 @@ const GrapesEditor = () => {
 
   useEffect(() => {
     if (!editorRef.current) {
-      const leftSidebar = document.getElementById("blocks-container"); // Append blocks to the container
-
-      const editor = grapesjs.init({
+      const editorInstance = grapesjs.init({
         container: "#gjs",
         height: "calc(100vh - 64px)",
-        width: isSidebarExpanded ? "calc(100% - 250px)" : "calc(100% - 50px)", // Adjust width dynamically
+        width: isSidebarExpanded ? "calc(100% - 250px)" : "100%",
         fromElement: true,
         storageManager: false,
         plugins: [grapesjsPresetWebpage, grapesjsStyleBg, grapesjsCustomCode],
@@ -90,7 +113,7 @@ const GrapesEditor = () => {
           grapesjsCustomCode: {},
         },
         blockManager: {
-          appendTo: leftSidebar, // Append blocks to the #blocks-container
+          appendTo: "#blocks-container",
         },
         panels: {
           defaults: [],
@@ -102,73 +125,22 @@ const GrapesEditor = () => {
         },
       });
 
-      // Add a custom image block
-      editor.BlockManager.add("image", {
-        label: "Image",
-        category: "Basic",
-        content: {
-          type: "image",
-          attributes: { class: "img-block" },
-        },
-      });
-
-      // Add functionality to upload images
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "image/*";
-      fileInput.style.display = "none";
-      document.body.appendChild(fileInput);
-
-      fileInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const imageBase64 = e.target.result;
-            editor.AssetManager.add({ src: imageBase64 });
-            const selected = editor.getSelected();
-            if (selected) {
-              selected.set("src", imageBase64);
-            }
-          };
-          reader.readAsDataURL(file);
+      // Remove the devices panel after initialization
+      editorInstance.on("load", () => {
+        const devicesPanel = editorInstance.Panels.getPanel("devices-c");
+        if (devicesPanel) {
+          editorInstance.Panels.removePanel("devices-c");
         }
       });
 
-      // Add a trait to the image component for uploading
-      editor.DomComponents.addType("image", {
-        isComponent: (el) => el.tagName === "IMG",
-        model: {
-          defaults: {
-            traits: [
-              {
-                type: "text",
-                label: "URL",
-                name: "src",
-              },
-              {
-                type: "button",
-                text: "Upload Image",
-                full: true,
-                command: "upload-image",
-              },
-            ],
-          },
-        },
-      });
-
-      // Command to open the file input when "Upload Image" is clicked
-      editor.Commands.add("upload-image", {
-        run: () => fileInput.click(),
-      });
-
-      editorRef.current = editor;
+      editorRef.current = editorInstance;
+      setEditor(editorInstance); // Set the editor state
     }
   }, [isSidebarExpanded]);
 
   return (
     <div>
-      <Header />
+      <Header editor={editor} /> {/* Pass the editor state */}
       <BlockSidebar
         isSidebarExpanded={isSidebarExpanded}
         toggleSidebar={toggleSidebar}
