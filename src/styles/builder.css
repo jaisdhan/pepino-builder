@@ -15,6 +15,73 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: auto;
+  width: 120px; /* Ajusta el tamaño del logo */
+}
+
+/* Botones centrales */
+.center-buttons {
+  display: flex !important; /* Force flex layout */
+  flex-direction: row; /* Ensure horizontal layout */
+  align-items: center;
+  justify-content: center; /* Center buttons horizontally */
+  
+}
+
+.header-button {
+  background-color: #000000; /* Fondo negro */
+  border: none;
+  color: #ffffff; /* Iconos blancos */
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.header-button:hover {
+  background-color: #333333; /* Fondo más claro al hacer hover */
+}
+
+/* Ensure all icons have the same size */
+.header-button .fa {
+  font-size: 18px; /* Set a fixed size for all icons */
+  width: 18px; /* Ensure consistent width */
+  height: 18px; /* Ensure consistent height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button .icon {
+  font-size: 18px; /* Tamaño del icono */
+}
+
+/* Botón de logout */
+.logout-button {
+  background-color: #000000; /* Fondo negro */
+  border: 1px solid #ffffff; /* Borde blanco */
+  color: #ffffff; /* Texto blanco */
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #ffffff; /* Fondo blanco al hacer hover */
+  color: #000000; /* Texto negro al hacer hover */
+}
+
 /* Left Sidebar */
 .left-sidebar {
   position: fixed;
@@ -34,18 +101,6 @@ header {
 .left-sidebar.collapsed {
   width: 0 !important; /* Ocultar completamente la barra lateral */
   padding: 0 !important; /* Eliminar el padding */
-}
-
-/* Sidebar Content */
-.sidebar-content {
-  overflow-y: auto;
-  height: calc(100vh - 84px); /* Ajuste para el header y padding */
-  transition: opacity 0.3s ease;
-  background-color: #ffffff; /* Fondo blanco */
-}
-
-.left-sidebar.collapsed .sidebar-content {
-  opacity: 0; /* Ocultar el contenido de la barra lateral */
 }
 
 /* Collapse/Expand Button */
@@ -78,7 +133,7 @@ header {
 }
 
 /* Main Content Area */
-#gjs {
+.main-content {
   margin-top: 64px; /* Ajuste para el header */
   margin-left: 250px; /* Ajuste para la barra lateral */
   width: calc(100% - 250px); /* Ancho cuando la barra lateral está expandida */
@@ -86,17 +141,13 @@ header {
   transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-.left-sidebar.collapsed ~ #gjs {
+.left-sidebar.collapsed ~ .main-content {
   margin-left: 0 !important; /* Eliminar el margen izquierdo */
   width: 100% !important; /* Ocupar toda la pantalla */
 }
 
 /* Contenedor de categorías de bloques */
 .left-sidebar .gjs-block-categories {
-  background-color: #e2ffdb !important; /* Fondo verdecito */
-}
-
-.sidebar-content {
   background-color: #e2ffdb !important; /* Fondo verdecito */
 }
 
