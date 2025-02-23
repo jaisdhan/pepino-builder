@@ -40,6 +40,7 @@ const Header = ({ editor }) => {
     }
   };
 
+  // Only render the buttons if editor is available
   return (
     <header>
       <div className="logo-container">
@@ -52,7 +53,7 @@ const Header = ({ editor }) => {
         />
       </div>
 
-      {editor && ( // Only render buttons if editor is available
+      {editor && ( // Conditionally render buttons
         <div className="center-buttons">
           <button
             className="header-button"

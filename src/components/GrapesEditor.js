@@ -7,6 +7,7 @@ import grapesjsCustomCode from "grapesjs-custom-code";
 import Header from "./Header";
 import BlockSidebar from "./BlockSidebar";
 import Body from "./Body";
+import "../styles/builder.css"; // Ensure this import is correct
 
 const GrapesEditor = () => {
   const editorRef = useRef(null);
