@@ -231,13 +231,13 @@ header {
 /* ==================== */
 /* Hide Original GrapesJS Buttons */
 /* ==================== */
+/* GrapesJS devices buttons */
 .gjs-pn-devices-c {
   display: none !important;
 }
 
-/* Uncomment to hide the original GrapesJS preview button */
-/*
-.gjs-pn-views {
+/* GrapesJS options buttons */
+/* see the grill, preview, full screen, see code, go back, go forward, download, clean all canva */
+.gjs-pn-options {
   display: none !important;
 }
-*/
