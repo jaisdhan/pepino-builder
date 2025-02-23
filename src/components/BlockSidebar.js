@@ -1,8 +1,6 @@
 import React from "react";
 
 const BlockSidebar = ({ isSidebarExpanded, isSidebarHidden, toggleSidebar }) => {
-  console.log("isSidebarHidden:", isSidebarHidden); // Debug: Log the isSidebarHidden state
-
   return (
     <>
       <div

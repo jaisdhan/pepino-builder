@@ -13,7 +13,7 @@ const handleLogout = () => {
   window.location.href = "/login";
 };
 
-const Header = ({ editor, isSidebarExpanded, toggleSidebar }) => {
+const Header = ({ editor, isSidebarExpanded, toggleSidebar, toggleSidebarVisibility }) => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   useEffect(() => {
@@ -37,11 +37,23 @@ const Header = ({ editor, isSidebarExpanded, toggleSidebar }) => {
   const togglePreviewMode = () => {
     if (editor) {
       const isVisible = editor.getModel().get("visible");
+
+      if (!isVisible) {
+        // Entering preview mode
+        if (isSidebarExpanded) {
+          toggleSidebar(); // Collapse the sidebar if it's expanded
+        }
+        toggleSidebarVisibility(true); // Hide the sidebar
+      } else {
+        // Exiting preview mode
+        toggleSidebarVisibility(false); // Show the sidebar
+        if (!isSidebarExpanded) {
+          toggleSidebar(); // Expand the sidebar if it's collapsed
+        }
+      }
+
       editor.getModel().set("visible", !isVisible); // Toggle visibility
       setIsPreviewMode(!isVisible); // Update the state
-
-      // Collapse/expand the sidebar
-      toggleSidebar();
     }
   };
 
