@@ -15,6 +15,7 @@ const handleLogout = () => {
 
 const Header = ({ editor, isSidebarExpanded, toggleSidebar, toggleSidebarVisibility }) => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [activeDevice, setActiveDevice] = useState("Desktop"); // Track the active device
 
   useEffect(() => {
     if (editor) {
@@ -57,6 +58,13 @@ const Header = ({ editor, isSidebarExpanded, toggleSidebar, toggleSidebarVisibil
     }
   };
 
+  const handleDeviceChange = (device) => {
+    if (editor) {
+      editor.setDevice(device); // Set the device in the editor
+      setActiveDevice(device); // Update the active device state
+    }
+  };
+
   return (
     <header>
       <div className="logo-container">
@@ -72,20 +80,20 @@ const Header = ({ editor, isSidebarExpanded, toggleSidebar, toggleSidebarVisibil
       {editor && ( // Only render buttons if editor is available
         <div className="center-buttons">
           <button
-            className="header-button"
-            onClick={() => editor.setDevice("Desktop")}
+            className={`header-button ${activeDevice === "Desktop" ? "active" : ""}`}
+            onClick={() => handleDeviceChange("Desktop")}
           >
             <FontAwesomeIcon icon={faDesktop} />
           </button>
           <button
-            className="header-button"
-            onClick={() => editor.setDevice("Tablet")}
+            className={`header-button ${activeDevice === "Tablet" ? "active" : ""}`}
+            onClick={() => handleDeviceChange("Tablet")}
           >
             <FontAwesomeIcon icon={faTabletScreenButton} />
           </button>
           <button
-            className="header-button"
-            onClick={() => editor.setDevice("Mobile portrait")}
+            className={`header-button ${activeDevice === "Mobile portrait" ? "active" : ""}`}
+            onClick={() => handleDeviceChange("Mobile portrait")}
           >
             <FontAwesomeIcon icon={faMobileScreenButton} />
           </button>
