@@ -13,7 +13,7 @@ const handleLogout = () => {
   window.location.href = "/login";
 };
 
-const Header = ({ editor }) => {
+const Header = ({ editor, isSidebarExpanded, toggleSidebar }) => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   useEffect(() => {
@@ -36,11 +36,15 @@ const Header = ({ editor }) => {
 
   const togglePreviewMode = () => {
     if (editor) {
-      editor.runCommand("sw-visibility"); // Toggle the visibility
+      const isVisible = editor.getModel().get("visible");
+      editor.getModel().set("visible", !isVisible); // Toggle visibility
+      setIsPreviewMode(!isVisible); // Update the state
+
+      // Collapse/expand the sidebar
+      toggleSidebar();
     }
   };
 
-  // Only render the buttons if editor is available
   return (
     <header>
       <div className="logo-container">
@@ -53,7 +57,7 @@ const Header = ({ editor }) => {
         />
       </div>
 
-      {editor && ( // Conditionally render buttons
+      {editor && ( // Only render buttons if editor is available
         <div className="center-buttons">
           <button
             className="header-button"

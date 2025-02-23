@@ -124,6 +124,11 @@ header {
   transition: background-color 0.2s, left 0.3s ease;
 }
 
+/* Hide the sidebar when isSidebarHidden is true */
+.left-sidebar.hidden {
+  display: none;
+}
+
 .toggle-sidebar-button:hover {
   background-color: #f9f9f9; /* Fondo más claro al hacer hover */
 }
@@ -197,3 +202,14 @@ header {
 .left-sidebar .gjs-block svg {
   fill: #000000 !important; /* Iconos negros */
 }
+
+/* Hiding original GrapeJS buttons */
+/* Hide the original GrapesJS devices buttons */
+.gjs-pn-devices-c {
+  display: none !important;
+}
+
+/* Hide the original GrapesJS preview button 
+.gjs-pn-views {
+  display: none !important;
+}*/

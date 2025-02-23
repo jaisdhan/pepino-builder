@@ -12,10 +12,15 @@ import "../styles/builder.css"; // Ensure this import is correct
 const GrapesEditor = () => {
   const editorRef = useRef(null);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [isSidebarHidden, setIsSidebarHidden] = useState(false); // Track sidebar visibility
   const [editor, setEditor] = useState(null); // State to hold the editor instance
 
   const toggleSidebar = () => {
     setIsSidebarExpanded((prev) => !prev);
+  };
+
+  const toggleSidebarVisibility = (shouldHide) => {
+    setIsSidebarHidden(shouldHide);
   };
 
   useEffect(() => {
@@ -52,9 +57,15 @@ const GrapesEditor = () => {
 
   return (
     <div>
-      <Header editor={editor} /> {/* Pass the editor state */}
+      <Header
+        editor={editor}
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+        toggleSidebarVisibility={toggleSidebarVisibility} // Pass the toggleSidebarVisibility function
+      />
       <BlockSidebar
         isSidebarExpanded={isSidebarExpanded}
+        isSidebarHidden={isSidebarHidden} // Pass the isSidebarHidden state
         toggleSidebar={toggleSidebar}
       />
       <Body isSidebarExpanded={isSidebarExpanded} />
